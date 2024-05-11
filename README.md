@@ -12,9 +12,8 @@ ShellBringer is a Python script designed for penetration testers. It facilitates
 4. [Dependencies](#dependencies) 🔍
 5. [Configuration](#configuration) 🧰
 6. [Examples](#examples) 📚
-7. [Troubleshooting](#troubleshooting) 🛠️
-8. [Contributors](#contributors) 👥
-9. [License](#license) 📜
+7. [Contributors](#contributors) 👥
+8. [License](#license) 📜
 
 ## Installation
 To install ShellBringer, follow these steps:
@@ -65,9 +64,8 @@ The script has several library dependencies as shown above. Besides, you should 
 
 ### Linux
 
-```
 - `rlwrap` is not a built-in command in many Linux distros. Install it as follows:
-```
+
 
 1. **Debian/Ubuntu-based systems:**
 
@@ -101,8 +99,8 @@ which nc
 ```
 
 ### Windows
-    - As you know Windows operating system does not support netcat directly. Therefore, we have another alternative for that.
-      Ncat is a modern reimplementation of the classic Netcat (nc) tool. Shell-Bringer only supports that listener.
+- As you know Windows operating system does not support netcat directly. Therefore, we have another alternative for that.
+Ncat is a modern reimplementation of the classic Netcat (nc) tool. Shell-Bringer only supports that listener.
 
 ### Using Nmap Installer:
 
