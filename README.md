@@ -1,6 +1,6 @@
 # ShellBringer
 
-![Main Image](mainScreen.png)
+![Main Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/mainScreen.PNG)
 
 ## Introduction
 ShellBringer is a Python script designed for penetration testers. It facilitates the creation and management of reverse shell payloads, automating listener setup across multiple platforms.
@@ -170,15 +170,15 @@ which nc
 
 ### Windows (Some uncompatible UI issues because of the unsupported CLI)
 
-![Windows Image](powershell.gif)
+![Windows Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/powershell.gif)
 
-![Windows Image2](commandPrompt.gif)
+![Command Prompt Example](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/commandPrompt.gif)
 
 
 ### Kali Linux
 
-![Kali Image](kali.gif)
+![Kali Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/kali.png)
 
 
 ### macOS
-![macOS Image](powershell.gif)
+![macOS Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/macos.gif)
