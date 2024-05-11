@@ -24,18 +24,17 @@ To install ShellBringer, follow these steps:
 2. Clone the repository:
    ```bash
    git clone https://github.com/onurcangnc/shell_bringer.git
-
+    ```
 3. Install required Python packages:
    ```bash
    pip install -r requirements.txt
-
+    ```
 ## Usage
 To start using ShellBringer, run the following command in your terminal:
 
-   ```python
+    ```python
     python3 shellbringer.py
-
-# ShellBringer
+    ```
 
 Follow the interactive prompts to generate reverse shells or start a listener.
 
@@ -52,6 +51,7 @@ ShellBringer requires the following Python libraries:
 - `sys` - Used to interact with the interpreter to exit the program.
 - `time` - Adds a delay of 2 seconds when exiting the script.
 ```
+
 ## Features
 
 - **Multi-OS Support:** Compatible with Linux, macOS, and Windows.
