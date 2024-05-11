@@ -6,15 +6,15 @@
 ShellBringer is a Python script designed for penetration testers. It facilitates the creation and management of reverse shell payloads, automating listener setup across multiple platforms.
 
 ## Table of Contents
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Features](#features)
-4. [Dependencies](#dependencies)
-5. [Configuration](#configuration)
-6. [Examples](#examples)
-7. [Troubleshooting](#troubleshooting)
-8. [Contributors](#contributors)
-9. [License](#license)
+1. [Installation](#installation) 🌐
+2. [Usage](#usage) 💻
+3. [Features](#features) ⌨️
+4. [Dependencies](#dependencies) 🔍
+5. [Configuration](#configuration) 🧰
+6. [Examples](#examples) 📚
+7. [Troubleshooting](#troubleshooting) 🛠️
+8. [Contributors](#contributors) 👥
+9. [License](#license) 📜
 
 ## Installation
 To install ShellBringer, follow these steps:
