@@ -35,64 +35,70 @@ To start using ShellBringer, run the following command in your terminal:
    ```python
     python3 shellbringer.py
 
+# ShellBringer
+
 Follow the interactive prompts to generate reverse shells or start a listener.
 
 ## Dependencies
+
 ShellBringer requires the following Python libraries:
-
-- pyfiglet (Used for creating ASCII art text banners)
-- colorama (Used for adding color and style to the text printed in the terminal.)
-- ipaddress (Used for validating IPv4 addresses)
-- platform (Used to detect the operating system)
-- subprocess (Used for spawning new processes)
-- ctypes (Used to interact with the Windows API, specifically for checking and requesting administrator privileges)
-- sys (Used to interact with interpreter to exit the program)
-- time (Delay of 2 seconds when exiting the script)
-
-
+```
+- `pyfiglet` - Used for creating ASCII art text banners.
+- `colorama` - Used for adding color and style to the text printed in the terminal.
+- `ipaddress` - Used for validating IPv4 addresses.
+- `platform` - Used to detect the operating system.
+- `subprocess` - Used for spawning new processes.
+- `ctypes` - Used to interact with the Windows API, specifically for checking and requesting administrator privileges.
+- `sys` - Used to interact with the interpreter to exit the program.
+- `time` - Adds a delay of 2 seconds when exiting the script.
+```
 ## Features
-*Multi-OS Support:* Compatible with Linux, macOS, and Windows.
-*Interactive CLI:* User-friendly command line interface for ease of use.
-*Dynamic Payload Generation:* Supports multiple types of reverse shells.
-*Listener Automation:* Simplifies the process of setting up listeners with netcat/ncat.
+
+- **Multi-OS Support:** Compatible with Linux, macOS, and Windows.
+- **Interactive CLI:** User-friendly command line interface for ease of use.
+- **Dynamic Payload Generation:** Supports multiple types of reverse shells.
+- **Listener Automation:** Simplifies the process of setting up listeners with netcat/ncat.
 
 ## Configuration
 
-As it has shown above, the script has several library dependencies. Besides, you should configure it according to your operating system.
+The script has several library dependencies as shown above. Besides, you should configure it according to your operating system.
 
-###Linux
-    - rlwrap is not a built-in command in many Linux distros. That's why you should install it.
+### Linux
+
+```
+- `rlwrap` is not a built-in command in many Linux distros. Install it as follows:
+```
+
+1. Debian/Ubuntu-based systems:
+
+```bash
+sudo apt-get update
+sudo apt-get install rlwrap
+```
+
+2. Red Hat-based systems (Fedora, CentOS, RHEL):
+
+```bash
+sudo dnf install rlwrap  # For Fedora
+sudo yum install rlwrap  # For CentOS/RHEL
+```
+
+3. Arch Linux  
+
+```bash
+sudo pacman -Sy rlwrap
+```
+
+4. openSUSE
+```bash
+sudo zypper install rlwrap
+```
+
+- DO NOT FORGET TO CHECK THE WHETHER YOU HAVE 'NETCAT' or not
     
-    1. Debian/Ubuntu-based systems:
-
-    ```bash
-    sudo apt-get update
-    sudo apt-get install rlwrap
-    ```
-
-    2. Red Hat-based systems (Fedora, CentOS, RHEL):
-
-    ```bash
-    sudo dnf install rlwrap  # For Fedora
-    sudo yum install rlwrap  # For CentOS/RHEL
-    ```
-
-    3. Arch Linux  
-
-    ```bash
-    sudo pacman -Sy rlwrap
-    ```
-
-    4. openSUSE
-    ```bash
-    sudo zypper install rlwrap
-    ```
-
-    - DO NOT FORGET TO CHECK THE WHETHER YOU HAVE 'NETCAT' or not
-    
-    ```bash
-    which nc
-    ```
+```bash
+which nc
+```
 
 ###Windows
     - As you know Windows operating system does not support netcat directly. Therefore, we have another alternative for that.
