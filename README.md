@@ -1,4 +1,4 @@
-# ShellBringer
+# 🚀 ShellBringer - Next Generation Reverse Shell Generator + Automated Listener 🛡️
 
 ![Main Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/mainScreen.PNG)
 
