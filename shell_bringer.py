@@ -28,7 +28,7 @@ def detect_os() -> str:
         return "Unknown"
 
 def validate_ip(ip: str) -> bool:
-    """Validates an IPv4 address and printing error message."""
+    """Validates an IPv4 address and prints an error message if invalid."""
     try:
         ipaddress.IPv4Address(ip)
         return True
@@ -36,32 +36,36 @@ def validate_ip(ip: str) -> bool:
         print("Invalid IP address. Please try again.")
         return False
 
-def start_netcat_listener(port: int, os_type: str, rev_shell: str, ip_version: str) -> None:
-    """Starts a netcat listener based on the operating system."""
+def start_listener(port: int, os_type: str, use_rlwrap: bool) -> None:
+    """Starts a listener and blocks until it completes."""
     if os_type == 'Linux':
-        use_rlwrap = input("Use netcat with rlwrap? (y/n): ").lower()
-        if use_rlwrap == 'y':
-            subprocess.Popen(["rlwrap", "nc", "-lvnp", str(port)])
-        else:
-            subprocess.Popen(["nc", "-lvnp", str(port)])
+        listener_command = f"rlwrap nc -lvnp {port}" if use_rlwrap else f"nc -lvnp {port}"
     elif os_type == 'macOS':
-        subprocess.Popen(["ncat", "-lvnp", str(port)])
+        listener_command = f"ncat -lvnp {port}"
     elif os_type == 'Windows':
-        # Request administrator privileges
-        if ctypes.windll.shell32.IsUserAnAdmin() == 0:
-            print("This script requires administrator privileges. Restarting with elevated permissions...")
-            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
-            sys.exit(0)
-        
-        ncat_path = r"C:\Program Files (x86)\Nmap\ncat.exe"  # Replace with the actual path to ncat
-        subprocess.Popen([ncat_path, "-lvnp", str(port)])
+        ncat_path = r"C:\\Program Files (x86)\\Nmap\\ncat.exe"
+        listener_command = f'"{ncat_path}" -lvnp {port}'
+    else:
+        print(Fore.RED + "Unsupported OS for this listener." + Style.RESET_ALL)
+        return
+
+    print(f"Starting listener on port {port}...\n")
+    try:
+        os.system(listener_command)
+        print(f"\nListener on port {port} has stopped.")
+    except KeyboardInterrupt:
+        print(Fore.RED + "\nListener interrupted by user." + Style.RESET_ALL)
 
 def print_reverse_shell_types(rev_shell_commands: ReverseShellCommands) -> None:
     """Prints available reverse shell commands with colors."""
-    print(highlight_text("\nAvailable reverse shell commands:", color=Fore.LIGHTYELLOW_EX, style=Style.BRIGHT))
-    for index, (key, value) in enumerate(rev_shell_commands.list_commands().items(), start=1):
-        print(highlight_text(f"{index}. ", color=Fore.LIGHTCYAN_EX, style=Style.BRIGHT) + highlight_text(value['name'], color=Fore.WHITE, style=Style.NORMAL))
+    commands = rev_shell_commands.list_commands()
+    if not commands:
+        print(Fore.RED + "No reverse shell commands available. Please check your configuration." + Style.RESET_ALL)
+        return
 
+    print(highlight_text("\nAvailable reverse shell commands:", color=Fore.LIGHTYELLOW_EX, style=Style.BRIGHT))
+    for index, (key, value) in enumerate(commands.items(), start=1):
+        print(highlight_text(f"{index}. ", color=Fore.LIGHTCYAN_EX, style=Style.BRIGHT) + highlight_text(value['name'], color=Fore.WHITE, style=Style.NORMAL))
 
 def get_user_input(prompt: str, validate_func) -> str:
     """Gets user input and validates it, printing a custom message if input is invalid."""
@@ -74,7 +78,6 @@ def get_user_input(prompt: str, validate_func) -> str:
                 print("Invalid input. Please try again.")
         except KeyboardInterrupt:
             print("\nKeyboard interrupt detected. Please try again.")
-
 
 def highlight_text(text: str, color=Fore.WHITE, style=Style.NORMAL) -> str:
     """Highlights the text with specified color and style."""
@@ -129,59 +132,49 @@ def get_shell_option(rev_shell_commands):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-
 def main() -> None:
     """Main function to run the script."""
     print_header()
 
     rev_shell_commands = ReverseShellCommands()
 
-    while True:
-        print(highlight_text("\n1. ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), "List all available reverse shell types")
-        print(highlight_text("0. ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), "Exit\n")
+    try:
+        while True:
+            print(highlight_text("\n1. ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), "List all available reverse shell types")
+            print(highlight_text("0. ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), "Exit\n")
 
-        choice = get_user_input(highlight_text("Enter your choice ", color=Fore.RED, style=Style.BRIGHT) + highlight_text("(0-1): ", color=Fore.RED, style=Style.BRIGHT), lambda x: x in ['0', '1'])
+            choice = get_user_input(highlight_text("Enter your choice ", color=Fore.RED, style=Style.BRIGHT) + highlight_text("(0-1): ", color=Fore.RED, style=Style.BRIGHT), lambda x: x in ['0', '1'])
+            print("\n")
 
-        if choice == "0":
-            print_goodbye_message()
-            break
-        elif choice == "1":
-            print_reverse_shell_types(rev_shell_commands)  # Print the list again when requested
-            option = get_shell_option(rev_shell_commands)
-
-            if option == -1:
+            if choice == "0":
                 print_goodbye_message()
                 break
+            elif choice == "1":
+                print_reverse_shell_types(rev_shell_commands)
+                option = get_shell_option(rev_shell_commands)
 
-            shell_types = list(rev_shell_commands.list_commands().keys())
-            if option not in range(1, len(shell_types) + 1):
-                print("Invalid option. Please choose again.")
-                continue
+                if option == -1:
+                    print_goodbye_message()
+                    break
 
-            shell_type = shell_types[option - 1]
-            ip_version = input("Enter '4' for IPv4 or '6' for IPv6: ")
-            while ip_version not in ['4', '6']:
-                print("Invalid IP version. Please choose IPv4 or IPv6.")
-                ip_version = input("Enter '4' for IPv4 or '6' for IPv6: ")
+                shell_types = list(rev_shell_commands.list_commands().keys())
+                shell_type = shell_types[option - 1]
+                ip = get_user_input(highlight_text("Enter your IP address: ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), validate_ip)
+                port = int(get_user_input(highlight_text(f"Enter the port number ({DEFAULT_PORT_MIN}-{DEFAULT_PORT_MAX}): ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), lambda x: x.isdigit() and DEFAULT_PORT_MIN <= int(x) <= DEFAULT_PORT_MAX))
 
-            ip = get_user_input(highlight_text("Enter your IP address: ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), validate_ip)
-            port = get_user_input(highlight_text(f"Enter the port number ({DEFAULT_PORT_MIN}-{DEFAULT_PORT_MAX}): ", color=Fore.LIGHTRED_EX, style=Style.BRIGHT), lambda x: x.isdigit() and DEFAULT_PORT_MIN <= int(x) <= DEFAULT_PORT_MAX)
+                # Fetch and display the selected commands
+                commands = rev_shell_commands.get_command(option, port, ip)
+                if commands:
+                    print(highlight_text("\nGenerated Commands:", color=Fore.LIGHTGREEN_EX, style=Style.BRIGHT))
+                    for i, cmd in enumerate(commands, start=1):
+                        print(highlight_text(f"{i}. ", color=Fore.LIGHTCYAN_EX, style=Style.BRIGHT) + highlight_text(cmd, color=Fore.WHITE, style=Style.NORMAL))
+                    print(highlight_text("\nCopy the command you want to use.", color=Fore.YELLOW, style=Style.BRIGHT))
 
-            command = rev_shell_commands.get_command(shell_type, port, ip)
-            if command:
-                print(highlight_text("\nPrepared payload(s):\n", color=Fore.LIGHTRED_EX, style=Style.BRIGHT))
-                for i, command in enumerate(command, start=1):
-                    print(highlight_text(f"{i}. ", color=Fore.LIGHTCYAN_EX, style=Style.BRIGHT) + highlight_text(command, color=Fore.WHITE, style=Style.NORMAL), "\n")
-            else:
-                print("\nInvalid option. Please choose again.\n")
-
-            start_listener = input("\nStart listener? (y/n): ").lower()
-            if start_listener == 'y':
-                print(highlight_text("\nStarting listener...", color=Fore.LIGHTRED_EX, style=Style.BRIGHT))
-                print(highlight_text("Press Ctrl+C to exit the listener.\n", color=Fore.LIGHTRED_EX, style=Style.BRIGHT))
-                start_netcat_listener(int(port), detect_os(), command, ip_version)
+                os_type = detect_os()
+                use_rlwrap = input("Use rlwrap? (y/n): ").lower() == 'y'
+                start_listener(port, os_type, use_rlwrap)
+    except KeyboardInterrupt:
+        print("\nExiting program...")
 
 if __name__ == "__main__":
     main()
-
-
