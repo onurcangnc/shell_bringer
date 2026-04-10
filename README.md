@@ -1,3 +1,16 @@
+## ⚠️ Disclaimer — Authorized Penetration Testing Only
+
+ShellBringer is designed for **licensed penetration testers** and **authorized security professionals** conducting engagements under a signed scope of work. Reverse shell generation and listener automation are standard techniques within ethical hacking methodologies (PTES, OWASP Testing Guide, OSSTMM).
+
+**Deploying reverse shells on systems without explicit written authorization constitutes unauthorized access** and is a criminal offense under:
+- **CFAA** (Computer Fraud and Abuse Act — US)
+- **CMA** (Computer Misuse Act — UK)
+- **TCK Articles 243-244** (Turkish Penal Code — unauthorized access to information systems)
+
+Always obtain proper written authorization before conducting any penetration test. The author assumes no liability for unauthorized or illegal use of this tool.
+
+---
+
 # 🚀 ShellBringer - Reverse Shell Generator + Automated Listener 🛡️
 
 ![Main Image](https://github.com/onurcangnc/shell_bringer/blob/main/example_run/mainScreen.PNG)
